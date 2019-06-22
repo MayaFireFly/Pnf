@@ -6,8 +6,8 @@ use yii\i18n\Formatter;
 use yii\base\Exception;
 
 class Pnf extends Formatter {
-    static $_numberMaxLength;
-    static $_numberMinLength;
+    static $_numberMaxLength = 11;
+    static $_numberMinLength = 5;
     
     public function getNumberMaxLength(){
         return $this::$_numberMaxLength;
@@ -18,15 +18,11 @@ class Pnf extends Formatter {
     public function setNumberMaxLength($l){
         if(preg_match("/^[0-9]+$/", $l) && $l > 0 && $l < 20 && $l >= $this->getNumberMinLength()){
             $this::$_numberMaxLength = $l;
-        }else{
-            $this::$_numberMaxLength = 11;
         }
     }
     public function setNumberMinLength($l){
         if(preg_match("/^[0-9]+$/", $l) && $l > 0 && $l < 20 && $l <= $this->getNumberMaxLength()){
             $this::$_numberMinLength = $l;
-        }else{
-            $this::$_numberMinLength = 5;
         }
     }
 
