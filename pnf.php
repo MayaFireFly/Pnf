@@ -3,10 +3,32 @@
 namespace app\components;
 
 use yii\i18n\Formatter;
-use yii\base\InvalidArgumentException;
 use yii\base\Exception;
 
 class Pnf extends Formatter {
+    public static $_numberMaxLength;
+    public static $_numberMinLength;
+    
+    public function getNumberMaxLength(){
+        return $this::$_numberMaxLength;
+    }
+    public function getNumberMinLength(){
+        return $this::$_numberMinLength;
+    }
+    public function setNumberMaxLength($l){
+        if(preg_match("/^[0-9]+$/", $l) && $l > 0 && $l < 20 && $l >= $this->getNumberMinLength()){
+            $this::$_numberMaxLength = $l;
+        }else{
+            $this::$_numberMaxLength = 11;
+        }
+    }
+    public function setNumberMinLength($l){
+        if(preg_match("/^[0-9]+$/", $l) && $l > 0 && $l < 20 && $l <= $this->getNumberMaxLength()){
+            $this::$_numberMinLength = $l;
+        }else{
+            $this::$_numberMinLength = 5;
+        }
+    }
 
     public function asPhoneNumber($value, $format = null) 
     {
@@ -14,6 +36,10 @@ class Pnf extends Formatter {
 
             $number = preg_replace("/[^\d]/", "", $value);
             $len = strlen($number);
+
+            if($len > $this->getNumberMaxLength() || $len < $this->getNumberMinLength()){
+                return "The phone number don't must be greater then {$this->getNumberMaxLength()} and less then {$this->getNumberMinLength()} characters.";
+            }
 
             if(null === $format){
 
@@ -29,8 +55,6 @@ class Pnf extends Formatter {
                     $number = preg_replace($format[1][0], $format[1][1], $number);
                 }elseif($len == 11){
                     $number = preg_replace($format[0][0], $format[0][1], $number);
-                }elseif($len > 11){
-                    throw new InvalidArgumentException("The phone number don't must be greater then 11 characters.");
                 }
 
             }else{
