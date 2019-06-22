@@ -75,7 +75,7 @@ class Pnf extends Formatter {
     }
 
     public static function isGroupeRegex($strGroupe){
-        $regexGroupe = '/^(\(?(\$\d)\)?\-?){1,4}$/';
+        $regexGroupe = '/^(.*\(?(\$\d)\)?\-?){1,4}$/';
         return preg_match($regexGroupe, $strGroupe);
     }
 }
