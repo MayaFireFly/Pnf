@@ -6,8 +6,8 @@ use yii\i18n\Formatter;
 use yii\base\Exception;
 
 class Pnf extends Formatter {
-    public static $_numberMaxLength;
-    public static $_numberMinLength;
+    static $_numberMaxLength;
+    static $_numberMinLength;
     
     public function getNumberMaxLength(){
         return $this::$_numberMaxLength;
